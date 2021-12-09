@@ -6,6 +6,8 @@ import "./NFT.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import "hardhat/console.sol";
 
 contract NFTMarketplace is ReentrancyGuard {
 	using Counters for Counters.Counter;
@@ -124,34 +126,33 @@ contract NFTMarketplace is ReentrancyGuard {
 			"Marketplace Fee not covered, please try again"
 		);
 
-		payable(address(this)).transfer(msg.value);
-
-		_itemID.increment();
+		if (tokenIdToId[tokenID] == 0) {
+			_itemID.increment();
+		}
 		uint256 newItemID = _itemID.current();
 
-		Listing[] memory newListings = new Listing[](1);
-		newListings[1] = Listing(price, msg.sender, false);
+		Listing[] storage newListings = idToMarketItem[newItemID]
+			.listingHistory;
+		newListings.push(Listing(price, msg.sender, false));
 
-		Purchase[] memory purchases = new Purchase[](1);
+		Purchase[] storage purchases = idToMarketItem[newItemID]
+			.purchaseHistory;
 
-		idToMarketItem[newItemID] = MarketItem(
-			newItemID,
-			tokenID,
-			price,
-			nftContract,
-			payable(msg.sender),
-			payable(address(0)),
-			false,
-			newListings,
-			purchases
-		);
+		MarketItem storage toBeSaved = idToMarketItem[newItemID];
+
+		toBeSaved.itemID = newItemID;
+		toBeSaved.tokenID = tokenID;
+		toBeSaved.price = price;
+		toBeSaved.nftContract = nftContract;
+		toBeSaved.seller = payable(msg.sender);
+		toBeSaved.owner = payable(address(0));
+		toBeSaved.sold = false;
+		toBeSaved.listingHistory = newListings;
+		toBeSaved.purchaseHistory = purchases;
+
+		idToMarketItem[newItemID] = toBeSaved;
 		tokenIdToId[tokenID] = newItemID;
-		IERC721(nftContract).approve(address(this), tokenID);
-		IERC721(nftContract).safeTransferFrom(
-			msg.sender,
-			address(this),
-			tokenID
-		);
+		IERC721(nftContract).transferFrom(msg.sender, address(this), tokenID);
 
 		emit MarketItemListed(
 			tokenID,
@@ -164,15 +165,15 @@ contract NFTMarketplace is ReentrancyGuard {
 
 	function cancelMarketListing(uint256 tokenID) public payable nonReentrant {
 		uint256 itemID = tokenIdToId[tokenID];
-		MarketItem memory marketItemToCancel = idToMarketItem[itemID];
+		MarketItem storage marketItemToCancel = idToMarketItem[itemID];
 		address nftContract = marketItemToCancel.nftContract;
 
 		marketItemToCancel.sold = false;
 		marketItemToCancel.owner = payable(msg.sender);
 
-		Listing[] memory listingHistory = marketItemToCancel.listingHistory;
+		Listing[] storage listingHistory = marketItemToCancel.listingHistory;
 
-		listingHistory[listingHistory.length].canceled = true;
+		listingHistory[listingHistory.length - 1].canceled = true;
 
 		idToMarketItem[itemID] = marketItemToCancel;
 
@@ -191,27 +192,28 @@ contract NFTMarketplace is ReentrancyGuard {
 		nonReentrant
 	{
 		uint256 itemID = tokenIdToId[tokenID];
-		MarketItem memory toBeSold = idToMarketItem[itemID];
+		MarketItem storage toBeSold = idToMarketItem[itemID];
 
 		require(
 			msg.value == toBeSold.price,
 			"The item you are trying to buy costs more than you are trying to send"
 		);
-		marketplaceOwner.transfer(marketplaceFee);
-		toBeSold.seller.transfer(msg.value);
 
-		IERC721(toBeSold.nftContract).safeTransferFrom(
+		IERC721(toBeSold.nftContract).transferFrom(
 			address(this),
 			msg.sender,
 			tokenID
 		);
-
+		marketplaceOwner.transfer(marketplaceFee);
+		toBeSold.seller.transfer(msg.value);
 		toBeSold.sold = true;
 		toBeSold.seller = payable(msg.sender);
 		toBeSold.owner = payable(msg.sender);
 
-		Listing[] memory listingHistory = toBeSold.listingHistory;
-		Listing memory toBeCanceled = listingHistory[listingHistory.length - 1];
+		Listing[] storage listingHistory = toBeSold.listingHistory;
+		Listing storage toBeCanceled = listingHistory[
+			listingHistory.length - 1
+		];
 
 		toBeCanceled.canceled = true;
 
@@ -237,8 +239,10 @@ contract NFTMarketplace is ReentrancyGuard {
 		MarketItem[] memory toBeReturned = new MarketItem[](totalNotSold);
 
 		for (uint256 i = 0; i < totalNotSold; i++) {
-			if (idToMarketItem[i].owner == address(0)) {
-				toBeReturned[toBeReturnedIndex] = idToMarketItem[i];
+			if (idToMarketItem[i + 1].owner == payable(address(0))) {
+				uint256 currentID = idToMarketItem[i + 1].itemID;
+				MarketItem storage currentItem = idToMarketItem[currentID];
+				toBeReturned[toBeReturnedIndex] = currentItem;
 				toBeReturnedIndex++;
 			}
 		}

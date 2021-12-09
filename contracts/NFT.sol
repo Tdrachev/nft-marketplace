@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >0.8.4;
+pragma solidity >=0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -24,9 +24,10 @@ contract NFT is ERC721URIStorage {
 	function createNFT(string memory tokenURI) public returns (uint256) {
 		_tokenIds.increment();
 		uint256 newID = _tokenIds.current();
-		require(newID > totalSupply, "Supply cannot be exceeded");
+		require(newID < totalSupply, "Supply cannot be exceeded");
 		_mint(msg.sender, newID);
 		_setTokenURI(newID, tokenURI);
+		setApprovalForAll(marketplaceAddress, true);
 		return newID;
 	}
 }

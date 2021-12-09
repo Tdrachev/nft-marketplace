@@ -13,7 +13,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 });
 
 task("NFT", "Deploys the NFT Contracts", async (taskArgs, hre) => {
-  const deployNFTContracts = require("./scripts/deploy");
+  const deployNFTContracts = require("./scripts/nftmarketplace");
   await deployNFTContracts();
 });
 
