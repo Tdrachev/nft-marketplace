@@ -1,0 +1,1219 @@
+{
+    "contractName": "NFTMarketplace",
+    "abi": [
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "uint256",
+                    "name": "tokenID",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "uint256",
+                    "name": "itemID",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "price",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "nftContract",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "seller",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "bool",
+                    "name": "sold",
+                    "type": "bool"
+                }
+            ],
+            "name": "MarketplaceItemListed",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "uint256",
+                    "name": "tokenID",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "uint256",
+                    "name": "itemID",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "price",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "nftContract",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "seller",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "bool",
+                    "name": "sold",
+                    "type": "bool"
+                }
+            ],
+            "name": "MarketplaceItemSoldI",
+            "type": "event"
+        },
+        {
+            "inputs": [],
+            "name": "getMarketplaceTax",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ],
+    "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"tokenID\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"itemID\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"nftContract\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"seller\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"sold\",\"type\":\"bool\"}],\"name\":\"MarketplaceItemListed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"tokenID\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"itemID\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"nftContract\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"seller\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"sold\",\"type\":\"bool\"}],\"name\":\"MarketplaceItemSoldI\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"getMarketplaceTax\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/Users/tomislavdrachev/limechain-nft-marketplace/contracts/NFTMarketplace.sol\":\"NFTMarketplace\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/tomislavdrachev/limechain-nft-marketplace/contracts/NFT.sol\":{\"keccak256\":\"0xc162f64530c4b3dcdfaa655338b15deb028ceb5e5f61e9faafcd61d2cb6862be\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://736a547f1d706fa83813e1f5050169c0b5b6f4d187489beab557514edee19e08\",\"dweb:/ipfs/QmeUbJ53LaqLHLF76jTGufd1ZHqQgW3MSxDTrfdgnXgc9a\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/contracts/NFTMarketplace.sol\":{\"keccak256\":\"0x963ea1dbe5b60a89b4bf06dac370fdbdfc74921853393b70efb446314a70beaf\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a8114a614432e96bf6205474af85d93611102e7c216e6d36e594c040cd2d849d\",\"dweb:/ipfs/QmPhnt7zfxLeFpi7wNrfUoZzGB5TXsAE69tao6gQ9zeFxG\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/security/ReentrancyGuard.sol\":{\"keccak256\":\"0x86ebc6cea2b539c2d4a79a4754f7c90c43c45c9aaf0aab32ecffb1565afc5e0b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1d8016f7e49bd65a14769d2c846a7e589603e51c4bf82da94315cc59f54fe2e4\",\"dweb:/ipfs/Qmd92BAbMLEbYYfRWwN1yqDTxEuguenmQ35YFbPh3KEFuP\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol\":{\"keccak256\":\"0x1ba5cf152c15dc0c785310feeb61e1f74387fc7bdc2aba5d90733f791606d4bf\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://38db14c62d6431df042a7ca07fd021ea52ccdbd03f0be2b5c4ab034a56126d38\",\"dweb:/ipfs/QmbCHTCLP6bz8omQXrP8VuxFGdK9Hh3jqfrSTr38WNpTk4\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol\":{\"keccak256\":\"0x872ba21af7c1f0ae04a715beca31e8fcac764d6c8762940b0fe1bfb6ed8e86f4\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://497017741d74878b56a67ad51e98061bd9ec0e6e4fdbfef0e2ab51523f4c16de\",\"dweb:/ipfs/QmWfkpRHksy8jFywqYxdmMqdkQ1hxrGTPoNBXbZ48zTvyv\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol\":{\"keccak256\":\"0x483b106386dd309f168672928252a19f30c30efb4d17d4b8e2b0f587ca784a11\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://189a39d066c6886ddbe86c79bb36d6cbe66e98bc6a94956e28f5503dae4ad406\",\"dweb:/ipfs/QmT3s3PwCdXqHLJk26kcnedrRGTC9T18z52i9Be7PV9ppc\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol\":{\"keccak256\":\"0x95b01a0017e74216dc94e5babd5a7b0fbabab160347349e51789e75ebb130e4a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5aa621ae63904efeeb4c626edf07da0acf4b3c3eb6bef1d2f5215023e4dc9f83\",\"dweb:/ipfs/QmTDk9fG65qquWQ2VXhacZmiUBYS4ZJgr6HqHdeBC7Xwfs\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol\":{\"keccak256\":\"0x6052c25b1021f2b0e733fb52ca11948cb2f08cb66076397507243a6e8a8d7776\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://32ac4547a76b28021a007853958284aa8a15a64f1aeec83cb797b7fd60a46b56\",\"dweb:/ipfs/QmTJWQF8j586oaYNpdZv55xnzyHVQc68XN4eBNeiLbKX8d\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/utils/Address.sol\":{\"keccak256\":\"0x9944d1038f27dcebff810d7ba16b3b8058b967173d76874fb72dd7cd84129656\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7c455cda07c5f8978c57e545ddde382552d3a55b6e3682e0f809ed07ec7defbe\",\"dweb:/ipfs/QmXkoKbxyMcMzjYdkXi5t4t3ZjBQ81pj7AaanS9jhePxyt\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0x7736c187e6f1358c1ea9350a2a21aa8528dec1c2f43b374a9067465a3a51f5d3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4fd625dca17657403af518cc6c8ab5c54c58898cf6e912ca2e1b0f3194ad0405\",\"dweb:/ipfs/QmQVv7YeeKmaS11bg7YDTeeGDk6i7sV8LMMfohaLM4SiRu\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/utils/Counters.sol\":{\"keccak256\":\"0x74f630d2664c1581a1cbd0730d4ba119b3a184ef90c65f3a934be4d16d0e58a1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://cadad0b133129f946a53e0f61fa387803ccdc010d9c794da0738bb7fc5001b66\",\"dweb:/ipfs/QmQdTBpUT9WgDuCm7womDFiAnksepw6Fmi5Z5vv1H17Qr1\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/utils/Strings.sol\":{\"keccak256\":\"0x5fa25f305839292fab713256214f2868e0257d29826b14282bbd7f1e34f5af38\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b3de4074848249e00e1336db857e3fa8f78b4fe11d4a887f71050c22023b2132\",\"dweb:/ipfs/QmbL6k2zFGndQPNPG7vCDivtjKam3quJSrEbRuVsNo4hBw\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol\":{\"keccak256\":\"0x905cd0ecd91d1de79a4679d745b79cf852ca8ccda5d25d1c49c6bd17a5edc0cf\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8dd1601fcd370546d8c06ea1902d7e7364fc490fbf0ebc3004230ef1f5db473c\",\"dweb:/ipfs/Qmb8zbC3TjWFtcuyP3KEEaegMkPcfeKAcPrwzvkAoMR3cZ\"]},\"/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"keccak256\":\"0x6aa521718bf139b44ce56f194f6aea1d590cacef995b5a84703fb1579fa49be9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://100f8d367b5e94eb9cb991914f1de133cf272654c0708faa893bbc17a5b35b93\",\"dweb:/ipfs/QmZeBojmgXq821dL1TJKFb58B1FogM9jL3u7hXQ8hTEBKT\"]}},\"version\":1}",
+    "bytecode": "60806040526658d15e17628000600455348015601a57600080fd5b50600160005560788061002e6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c80637c935f4e14602d575b600080fd5b60045460405190815260200160405180910390f3fea2646970667358221220e4bed8a50e2bc193c3eee9c7ccf6eb918439e019b5d6b25e06b7d5a983db083d64736f6c634300080a0033",
+    "deployedBytecode": "6080604052348015600f57600080fd5b506004361060285760003560e01c80637c935f4e14602d575b600080fd5b60045460405190815260200160405180910390f3fea2646970667358221220e4bed8a50e2bc193c3eee9c7ccf6eb918439e019b5d6b25e06b7d5a983db083d64736f6c634300080a0033",
+    "sourceMap": "440:917:1:-:0;;;665:11;640:36;;440:917;;;;;;;;;-1:-1:-1;1701:1:2;1806:7;:22;440:917:1;;;;;;",
+    "deployedSourceMap": "440:917:1:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1267:88;1337:14;;1267:88;;160:25:14;;;148:2;133:18;1267:88:1;;;;;;",
+    "sourcePath": "/Users/tomislavdrachev/limechain-nft-marketplace/contracts/NFTMarketplace.sol",
+    "compiler": {
+        "name": "solc",
+        "version": "0.8.10+commit.fc410830"
+    },
+    "ast": {
+        "absolutePath": "/Users/tomislavdrachev/limechain-nft-marketplace/contracts/NFTMarketplace.sol",
+        "exportedSymbols": {
+            "Address": [
+                1611
+            ],
+            "Context": [
+                1633
+            ],
+            "Counters": [
+                1707
+            ],
+            "ERC165": [
+                1934
+            ],
+            "ERC721": [
+                1025
+            ],
+            "ERC721URIStorage": [
+                1287
+            ],
+            "IERC165": [
+                1946
+            ],
+            "IERC721": [
+                1141
+            ],
+            "IERC721Metadata": [
+                1314
+            ],
+            "IERC721Receiver": [
+                1159
+            ],
+            "NFT": [
+                70
+            ],
+            "NFTMarketplace": [
+                154
+            ],
+            "ReentrancyGuard": [
+                194
+            ],
+            "Strings": [
+                1910
+            ]
+        },
+        "id": 155,
+        "license": "MIT",
+        "nodeType": "SourceUnit",
+        "nodes": [
+            {
+                "id": 72,
+                "literals": [
+                    "solidity",
+                    ">=",
+                    "0.8",
+                    ".0"
+                ],
+                "nodeType": "PragmaDirective",
+                "src": "33:24:1"
+            },
+            {
+                "absolutePath": "/Users/tomislavdrachev/limechain-nft-marketplace/contracts/NFT.sol",
+                "file": "./NFT.sol",
+                "id": 73,
+                "nameLocation": "-1:-1:-1",
+                "nodeType": "ImportDirective",
+                "scope": 155,
+                "sourceUnit": 71,
+                "src": "59:19:1",
+                "symbolAliases": [],
+                "unitAlias": ""
+            },
+            {
+                "absolutePath": "/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol",
+                "file": "/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol",
+                "id": 74,
+                "nameLocation": "-1:-1:-1",
+                "nodeType": "ImportDirective",
+                "scope": 155,
+                "sourceUnit": 1026,
+                "src": "79:119:1",
+                "symbolAliases": [],
+                "unitAlias": ""
+            },
+            {
+                "absolutePath": "/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/utils/Counters.sol",
+                "file": "/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/utils/Counters.sol",
+                "id": 75,
+                "nameLocation": "-1:-1:-1",
+                "nodeType": "ImportDirective",
+                "scope": 155,
+                "sourceUnit": 1708,
+                "src": "199:114:1",
+                "symbolAliases": [],
+                "unitAlias": ""
+            },
+            {
+                "absolutePath": "/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/security/ReentrancyGuard.sol",
+                "file": "/Users/tomislavdrachev/limechain-nft-marketplace/node_modules/@openzeppelin/contracts/security/ReentrancyGuard.sol",
+                "id": 76,
+                "nameLocation": "-1:-1:-1",
+                "nodeType": "ImportDirective",
+                "scope": 155,
+                "sourceUnit": 195,
+                "src": "314:124:1",
+                "symbolAliases": [],
+                "unitAlias": ""
+            },
+            {
+                "abstract": false,
+                "baseContracts": [
+                    {
+                        "baseName": {
+                            "id": 77,
+                            "name": "ReentrancyGuard",
+                            "nodeType": "IdentifierPath",
+                            "referencedDeclaration": 194,
+                            "src": "467:15:1"
+                        },
+                        "id": 78,
+                        "nodeType": "InheritanceSpecifier",
+                        "src": "467:15:1"
+                    }
+                ],
+                "canonicalName": "NFTMarketplace",
+                "contractDependencies": [],
+                "contractKind": "contract",
+                "fullyImplemented": true,
+                "id": 154,
+                "linearizedBaseContracts": [
+                    154,
+                    194
+                ],
+                "name": "NFTMarketplace",
+                "nameLocation": "449:14:1",
+                "nodeType": "ContractDefinition",
+                "nodes": [
+                    {
+                        "id": 82,
+                        "libraryName": {
+                            "id": 79,
+                            "name": "Counters",
+                            "nodeType": "IdentifierPath",
+                            "referencedDeclaration": 1707,
+                            "src": "492:8:1"
+                        },
+                        "nodeType": "UsingForDirective",
+                        "src": "486:36:1",
+                        "typeName": {
+                            "id": 81,
+                            "nodeType": "UserDefinedTypeName",
+                            "pathNode": {
+                                "id": 80,
+                                "name": "Counters.Counter",
+                                "nodeType": "IdentifierPath",
+                                "referencedDeclaration": 1639,
+                                "src": "505:16:1"
+                            },
+                            "referencedDeclaration": 1639,
+                            "src": "505:16:1",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_Counter_$1639_storage_ptr",
+                                "typeString": "struct Counters.Counter"
+                            }
+                        }
+                    },
+                    {
+                        "constant": false,
+                        "id": 85,
+                        "mutability": "mutable",
+                        "name": "_totalSold",
+                        "nameLocation": "549:10:1",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 154,
+                        "src": "524:35:1",
+                        "stateVariable": true,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Counter_$1639_storage",
+                            "typeString": "struct Counters.Counter"
+                        },
+                        "typeName": {
+                            "id": 84,
+                            "nodeType": "UserDefinedTypeName",
+                            "pathNode": {
+                                "id": 83,
+                                "name": "Counters.Counter",
+                                "nodeType": "IdentifierPath",
+                                "referencedDeclaration": 1639,
+                                "src": "524:16:1"
+                            },
+                            "referencedDeclaration": 1639,
+                            "src": "524:16:1",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_Counter_$1639_storage_ptr",
+                                "typeString": "struct Counters.Counter"
+                            }
+                        },
+                        "visibility": "private"
+                    },
+                    {
+                        "constant": false,
+                        "id": 88,
+                        "mutability": "mutable",
+                        "name": "_totalListed",
+                        "nameLocation": "587:12:1",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 154,
+                        "src": "562:37:1",
+                        "stateVariable": true,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Counter_$1639_storage",
+                            "typeString": "struct Counters.Counter"
+                        },
+                        "typeName": {
+                            "id": 87,
+                            "nodeType": "UserDefinedTypeName",
+                            "pathNode": {
+                                "id": 86,
+                                "name": "Counters.Counter",
+                                "nodeType": "IdentifierPath",
+                                "referencedDeclaration": 1639,
+                                "src": "562:16:1"
+                            },
+                            "referencedDeclaration": 1639,
+                            "src": "562:16:1",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_Counter_$1639_storage_ptr",
+                                "typeString": "struct Counters.Counter"
+                            }
+                        },
+                        "visibility": "private"
+                    },
+                    {
+                        "constant": false,
+                        "id": 90,
+                        "mutability": "mutable",
+                        "name": "marketplaceAddress",
+                        "nameLocation": "619:18:1",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 154,
+                        "src": "603:34:1",
+                        "stateVariable": true,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                        },
+                        "typeName": {
+                            "id": 89,
+                            "name": "address",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "603:15:1",
+                            "stateMutability": "payable",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_address_payable",
+                                "typeString": "address payable"
+                            }
+                        },
+                        "visibility": "internal"
+                    },
+                    {
+                        "constant": false,
+                        "id": 93,
+                        "mutability": "mutable",
+                        "name": "marketplaceTax",
+                        "nameLocation": "648:14:1",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 154,
+                        "src": "640:36:1",
+                        "stateVariable": true,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                        },
+                        "typeName": {
+                            "id": 91,
+                            "name": "uint256",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "640:7:1",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                            }
+                        },
+                        "value": {
+                            "hexValue": "302e303235",
+                            "id": 92,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "665:11:1",
+                            "subdenomination": "ether",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_rational_25000000000000000_by_1",
+                                "typeString": "int_const 25000000000000000"
+                            },
+                            "value": "0.025"
+                        },
+                        "visibility": "internal"
+                    },
+                    {
+                        "canonicalName": "NFTMarketplace.MarketItem",
+                        "id": 108,
+                        "members": [
+                            {
+                                "constant": false,
+                                "id": 95,
+                                "mutability": "mutable",
+                                "name": "itemID",
+                                "nameLocation": "710:6:1",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 108,
+                                "src": "702:14:1",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                },
+                                "typeName": {
+                                    "id": 94,
+                                    "name": "uint256",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "702:7:1",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    }
+                                },
+                                "visibility": "internal"
+                            },
+                            {
+                                "constant": false,
+                                "id": 97,
+                                "mutability": "mutable",
+                                "name": "tokenID",
+                                "nameLocation": "728:7:1",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 108,
+                                "src": "720:15:1",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                },
+                                "typeName": {
+                                    "id": 96,
+                                    "name": "uint256",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "720:7:1",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    }
+                                },
+                                "visibility": "internal"
+                            },
+                            {
+                                "constant": false,
+                                "id": 99,
+                                "mutability": "mutable",
+                                "name": "price",
+                                "nameLocation": "747:5:1",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 108,
+                                "src": "739:13:1",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                },
+                                "typeName": {
+                                    "id": 98,
+                                    "name": "uint256",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "739:7:1",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    }
+                                },
+                                "visibility": "internal"
+                            },
+                            {
+                                "constant": false,
+                                "id": 101,
+                                "mutability": "mutable",
+                                "name": "nftContract",
+                                "nameLocation": "764:11:1",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 108,
+                                "src": "756:19:1",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                },
+                                "typeName": {
+                                    "id": 100,
+                                    "name": "address",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "756:7:1",
+                                    "stateMutability": "nonpayable",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    }
+                                },
+                                "visibility": "internal"
+                            },
+                            {
+                                "constant": false,
+                                "id": 103,
+                                "mutability": "mutable",
+                                "name": "seller",
+                                "nameLocation": "795:6:1",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 108,
+                                "src": "779:22:1",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_address_payable",
+                                    "typeString": "address payable"
+                                },
+                                "typeName": {
+                                    "id": 102,
+                                    "name": "address",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "779:15:1",
+                                    "stateMutability": "payable",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address_payable",
+                                        "typeString": "address payable"
+                                    }
+                                },
+                                "visibility": "internal"
+                            },
+                            {
+                                "constant": false,
+                                "id": 105,
+                                "mutability": "mutable",
+                                "name": "owner",
+                                "nameLocation": "821:5:1",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 108,
+                                "src": "805:21:1",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_address_payable",
+                                    "typeString": "address payable"
+                                },
+                                "typeName": {
+                                    "id": 104,
+                                    "name": "address",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "805:15:1",
+                                    "stateMutability": "payable",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address_payable",
+                                        "typeString": "address payable"
+                                    }
+                                },
+                                "visibility": "internal"
+                            },
+                            {
+                                "constant": false,
+                                "id": 107,
+                                "mutability": "mutable",
+                                "name": "sold",
+                                "nameLocation": "835:4:1",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 108,
+                                "src": "830:9:1",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_bool",
+                                    "typeString": "bool"
+                                },
+                                "typeName": {
+                                    "id": 106,
+                                    "name": "bool",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "830:4:1",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_bool",
+                                        "typeString": "bool"
+                                    }
+                                },
+                                "visibility": "internal"
+                            }
+                        ],
+                        "name": "MarketItem",
+                        "nameLocation": "687:10:1",
+                        "nodeType": "StructDefinition",
+                        "scope": 154,
+                        "src": "680:163:1",
+                        "visibility": "public"
+                    },
+                    {
+                        "constant": false,
+                        "id": 113,
+                        "mutability": "mutable",
+                        "name": "idToMarketItem",
+                        "nameLocation": "885:14:1",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 154,
+                        "src": "846:53:1",
+                        "stateVariable": true,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_MarketItem_$108_storage_$",
+                            "typeString": "mapping(uint256 => struct NFTMarketplace.MarketItem)"
+                        },
+                        "typeName": {
+                            "id": 112,
+                            "keyType": {
+                                "id": 109,
+                                "name": "uint256",
+                                "nodeType": "ElementaryTypeName",
+                                "src": "854:7:1",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                }
+                            },
+                            "nodeType": "Mapping",
+                            "src": "846:30:1",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_MarketItem_$108_storage_$",
+                                "typeString": "mapping(uint256 => struct NFTMarketplace.MarketItem)"
+                            },
+                            "valueType": {
+                                "id": 111,
+                                "nodeType": "UserDefinedTypeName",
+                                "pathNode": {
+                                    "id": 110,
+                                    "name": "MarketItem",
+                                    "nodeType": "IdentifierPath",
+                                    "referencedDeclaration": 108,
+                                    "src": "865:10:1"
+                                },
+                                "referencedDeclaration": 108,
+                                "src": "865:10:1",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_struct$_MarketItem_$108_storage_ptr",
+                                    "typeString": "struct NFTMarketplace.MarketItem"
+                                }
+                            }
+                        },
+                        "visibility": "private"
+                    },
+                    {
+                        "anonymous": false,
+                        "id": 129,
+                        "name": "MarketplaceItemListed",
+                        "nameLocation": "909:21:1",
+                        "nodeType": "EventDefinition",
+                        "parameters": {
+                            "id": 128,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 115,
+                                    "indexed": true,
+                                    "mutability": "mutable",
+                                    "name": "tokenID",
+                                    "nameLocation": "950:7:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 129,
+                                    "src": "934:23:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    },
+                                    "typeName": {
+                                        "id": 114,
+                                        "name": "uint256",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "934:7:1",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 117,
+                                    "indexed": true,
+                                    "mutability": "mutable",
+                                    "name": "itemID",
+                                    "nameLocation": "977:6:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 129,
+                                    "src": "961:22:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    },
+                                    "typeName": {
+                                        "id": 116,
+                                        "name": "uint256",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "961:7:1",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 119,
+                                    "indexed": false,
+                                    "mutability": "mutable",
+                                    "name": "price",
+                                    "nameLocation": "995:5:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 129,
+                                    "src": "987:13:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    },
+                                    "typeName": {
+                                        "id": 118,
+                                        "name": "uint256",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "987:7:1",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 121,
+                                    "indexed": true,
+                                    "mutability": "mutable",
+                                    "name": "nftContract",
+                                    "nameLocation": "1020:11:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 129,
+                                    "src": "1004:27:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    },
+                                    "typeName": {
+                                        "id": 120,
+                                        "name": "address",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1004:7:1",
+                                        "stateMutability": "nonpayable",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_address",
+                                            "typeString": "address"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 123,
+                                    "indexed": false,
+                                    "mutability": "mutable",
+                                    "name": "seller",
+                                    "nameLocation": "1043:6:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 129,
+                                    "src": "1035:14:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    },
+                                    "typeName": {
+                                        "id": 122,
+                                        "name": "address",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1035:7:1",
+                                        "stateMutability": "nonpayable",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_address",
+                                            "typeString": "address"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 125,
+                                    "indexed": false,
+                                    "mutability": "mutable",
+                                    "name": "owner",
+                                    "nameLocation": "1061:5:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 129,
+                                    "src": "1053:13:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    },
+                                    "typeName": {
+                                        "id": 124,
+                                        "name": "address",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1053:7:1",
+                                        "stateMutability": "nonpayable",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_address",
+                                            "typeString": "address"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 127,
+                                    "indexed": false,
+                                    "mutability": "mutable",
+                                    "name": "sold",
+                                    "nameLocation": "1075:4:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 129,
+                                    "src": "1070:9:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_bool",
+                                        "typeString": "bool"
+                                    },
+                                    "typeName": {
+                                        "id": 126,
+                                        "name": "bool",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1070:4:1",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_bool",
+                                            "typeString": "bool"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "930:152:1"
+                        },
+                        "src": "903:180:1"
+                    },
+                    {
+                        "anonymous": false,
+                        "id": 145,
+                        "name": "MarketplaceItemSoldI",
+                        "nameLocation": "1091:20:1",
+                        "nodeType": "EventDefinition",
+                        "parameters": {
+                            "id": 144,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 131,
+                                    "indexed": true,
+                                    "mutability": "mutable",
+                                    "name": "tokenID",
+                                    "nameLocation": "1131:7:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 145,
+                                    "src": "1115:23:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    },
+                                    "typeName": {
+                                        "id": 130,
+                                        "name": "uint256",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1115:7:1",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 133,
+                                    "indexed": true,
+                                    "mutability": "mutable",
+                                    "name": "itemID",
+                                    "nameLocation": "1158:6:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 145,
+                                    "src": "1142:22:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    },
+                                    "typeName": {
+                                        "id": 132,
+                                        "name": "uint256",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1142:7:1",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 135,
+                                    "indexed": false,
+                                    "mutability": "mutable",
+                                    "name": "price",
+                                    "nameLocation": "1176:5:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 145,
+                                    "src": "1168:13:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    },
+                                    "typeName": {
+                                        "id": 134,
+                                        "name": "uint256",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1168:7:1",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 137,
+                                    "indexed": true,
+                                    "mutability": "mutable",
+                                    "name": "nftContract",
+                                    "nameLocation": "1201:11:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 145,
+                                    "src": "1185:27:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    },
+                                    "typeName": {
+                                        "id": 136,
+                                        "name": "address",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1185:7:1",
+                                        "stateMutability": "nonpayable",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_address",
+                                            "typeString": "address"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 139,
+                                    "indexed": false,
+                                    "mutability": "mutable",
+                                    "name": "seller",
+                                    "nameLocation": "1224:6:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 145,
+                                    "src": "1216:14:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    },
+                                    "typeName": {
+                                        "id": 138,
+                                        "name": "address",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1216:7:1",
+                                        "stateMutability": "nonpayable",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_address",
+                                            "typeString": "address"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 141,
+                                    "indexed": false,
+                                    "mutability": "mutable",
+                                    "name": "owner",
+                                    "nameLocation": "1242:5:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 145,
+                                    "src": "1234:13:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    },
+                                    "typeName": {
+                                        "id": 140,
+                                        "name": "address",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1234:7:1",
+                                        "stateMutability": "nonpayable",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_address",
+                                            "typeString": "address"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 143,
+                                    "indexed": false,
+                                    "mutability": "mutable",
+                                    "name": "sold",
+                                    "nameLocation": "1256:4:1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 145,
+                                    "src": "1251:9:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_bool",
+                                        "typeString": "bool"
+                                    },
+                                    "typeName": {
+                                        "id": 142,
+                                        "name": "bool",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1251:4:1",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_bool",
+                                            "typeString": "bool"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "1111:152:1"
+                        },
+                        "src": "1085:179:1"
+                    },
+                    {
+                        "body": {
+                            "id": 152,
+                            "nodeType": "Block",
+                            "src": "1326:29:1",
+                            "statements": [
+                                {
+                                    "expression": {
+                                        "id": 150,
+                                        "name": "marketplaceTax",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 93,
+                                        "src": "1337:14:1",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        }
+                                    },
+                                    "functionReturnParameters": 149,
+                                    "id": 151,
+                                    "nodeType": "Return",
+                                    "src": "1330:21:1"
+                                }
+                            ]
+                        },
+                        "functionSelector": "7c935f4e",
+                        "id": 153,
+                        "implemented": true,
+                        "kind": "function",
+                        "modifiers": [],
+                        "name": "getMarketplaceTax",
+                        "nameLocation": "1276:17:1",
+                        "nodeType": "FunctionDefinition",
+                        "parameters": {
+                            "id": 146,
+                            "nodeType": "ParameterList",
+                            "parameters": [],
+                            "src": "1293:2:1"
+                        },
+                        "returnParameters": {
+                            "id": 149,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 148,
+                                    "mutability": "mutable",
+                                    "name": "",
+                                    "nameLocation": "-1:-1:-1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 153,
+                                    "src": "1317:7:1",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    },
+                                    "typeName": {
+                                        "id": 147,
+                                        "name": "uint256",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1317:7:1",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "1316:9:1"
+                        },
+                        "scope": 154,
+                        "src": "1267:88:1",
+                        "stateMutability": "view",
+                        "virtual": false,
+                        "visibility": "public"
+                    }
+                ],
+                "scope": 155,
+                "src": "440:917:1",
+                "usedErrors": []
+            }
+        ],
+        "src": "33:1325:1"
+    },
+    "functionHashes": {
+        "getMarketplaceTax()": "7c935f4e"
+    },
+    "gasEstimates": {
+        "creation": {
+            "codeDepositCost": "24000",
+            "executionCost": "44287",
+            "totalCost": "68287"
+        },
+        "external": {
+            "getMarketplaceTax()": "2246"
+        }
+    }
+}
