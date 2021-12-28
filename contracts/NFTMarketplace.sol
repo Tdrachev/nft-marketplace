@@ -14,6 +14,8 @@ contract NFTMarketplace is ReentrancyGuard {
 	Counters.Counter private _itemID;
 	Counters.Counter private _itemsSold;
 	Counters.Counter private _collectionID;
+	Counters.Counter private _listingID;
+	Counters.Counter private _purchaseID;
 
 	struct MarketItem {
 		uint256 itemID;
@@ -23,17 +25,17 @@ contract NFTMarketplace is ReentrancyGuard {
 		address payable seller;
 		address payable owner;
 		bool sold;
-		Listing[] listingHistory;
-		Purchase[] purchaseHistory;
 	}
 
 	struct Purchase {
+		uint256 tokenID;
 		uint256 price;
 		address seller;
 		address buyer;
 	}
 
 	struct Listing {
+		uint256 tokenID;
 		uint256 price;
 		address seller;
 		bool canceled;
@@ -49,16 +51,21 @@ contract NFTMarketplace is ReentrancyGuard {
 		string name;
 		string description;
 		address payable owner;
-		Purchase[] purchases;
-		Listing[] listings;
+		address collectionAddress;
 	}
 
 	address payable marketplaceOwner;
 	uint256 marketplaceFee = 0.025 ether;
 
+	uint256[] public Listings;
+	uint256[] public Purchases;
+
 	mapping(uint256 => uint256) tokenIdToId;
-	mapping(uint256 => MarketItem) idToMarketItem;
-	mapping(uint256 => Collection) idToCollection;
+	mapping(uint256 => MarketItem) public idToMarketItem;
+	mapping(uint256 => Collection) public idToCollection;
+	mapping(uint256 => uint256) public marketItemIdToCollectionID;
+	mapping(uint256 => Purchase) public idToPurchase;
+	mapping(uint256 => Listing) public idToListing;
 
 	event MarketItemListed(
 		uint256 tokenID,
@@ -94,25 +101,27 @@ contract NFTMarketplace is ReentrancyGuard {
 
 	event CollectionCreated(
 		uint256 collectionID,
-		string name,
-		string description,
 		uint256 totalItems,
 		uint256 fee,
-		uint256 owner
+		string name,
+		string description,
+		address owner,
+		address collectionAddress
 	);
 
 	event CollectionDescriptionUpdated(
 		uint256 collectionID,
 		string name,
-		string description
+		string description,
+		address collectionAddress
 	);
 
 	event CollectionNFTMinted(
 		uint256 collectionID,
 		uint256 tokenID,
 		uint256 price,
-		address nftContract,
-		address buyer
+		address owner,
+		address collectionAddress
 	);
 
 	function createMarketListing(
@@ -129,28 +138,27 @@ contract NFTMarketplace is ReentrancyGuard {
 		if (tokenIdToId[tokenID] == 0) {
 			_itemID.increment();
 		}
+
+		if (idToListing[_listingID.current()].price == 0) {
+			_listingID.increment();
+		}
+
 		uint256 newItemID = _itemID.current();
+		uint256 newListingID = _listingID.current();
+		Listing memory newListing = Listing(tokenID, price, msg.sender, false);
+		idToListing[newListingID] = newListing;
+		Listings.push(newListingID);
 
-		Listing[] storage newListings = idToMarketItem[newItemID]
-			.listingHistory;
-		newListings.push(Listing(price, msg.sender, false));
+		idToMarketItem[newItemID] = MarketItem(
+			newItemID,
+			tokenID,
+			price,
+			nftContract,
+			payable(msg.sender),
+			payable(address(0)),
+			false
+		);
 
-		Purchase[] storage purchases = idToMarketItem[newItemID]
-			.purchaseHistory;
-
-		MarketItem storage toBeSaved = idToMarketItem[newItemID];
-
-		toBeSaved.itemID = newItemID;
-		toBeSaved.tokenID = tokenID;
-		toBeSaved.price = price;
-		toBeSaved.nftContract = nftContract;
-		toBeSaved.seller = payable(msg.sender);
-		toBeSaved.owner = payable(address(0));
-		toBeSaved.sold = false;
-		toBeSaved.listingHistory = newListings;
-		toBeSaved.purchaseHistory = purchases;
-
-		idToMarketItem[newItemID] = toBeSaved;
 		tokenIdToId[tokenID] = newItemID;
 		IERC721(nftContract).transferFrom(msg.sender, address(this), tokenID);
 
@@ -163,17 +171,24 @@ contract NFTMarketplace is ReentrancyGuard {
 		);
 	}
 
-	function cancelMarketListing(uint256 tokenID) public payable nonReentrant {
+	function cancelMarketListing(uint256 tokenID, uint256 listingID)
+		public
+		payable
+		nonReentrant
+	{
 		uint256 itemID = tokenIdToId[tokenID];
 		MarketItem storage marketItemToCancel = idToMarketItem[itemID];
 		address nftContract = marketItemToCancel.nftContract;
 
+		require(
+			marketItemToCancel.seller == msg.sender,
+			"Only original seller can cancel"
+		);
+
 		marketItemToCancel.sold = false;
 		marketItemToCancel.owner = payable(msg.sender);
 
-		Listing[] storage listingHistory = marketItemToCancel.listingHistory;
-
-		listingHistory[listingHistory.length - 1].canceled = true;
+		idToListing[listingID].canceled = true;
 
 		idToMarketItem[itemID] = marketItemToCancel;
 
@@ -186,7 +201,7 @@ contract NFTMarketplace is ReentrancyGuard {
 		emit MarketItemCanceled(tokenID, nftContract, msg.sender, msg.sender);
 	}
 
-	function completeMarketListing(uint256 tokenID)
+	function completeMarketListing(uint256 tokenID, uint256 listingID)
 		public
 		payable
 		nonReentrant
@@ -210,15 +225,7 @@ contract NFTMarketplace is ReentrancyGuard {
 		toBeSold.seller = payable(msg.sender);
 		toBeSold.owner = payable(msg.sender);
 
-		Listing[] storage listingHistory = toBeSold.listingHistory;
-		Listing storage toBeCanceled = listingHistory[
-			listingHistory.length - 1
-		];
-
-		toBeCanceled.canceled = true;
-
-		listingHistory[listingHistory.length - 1] = toBeCanceled;
-		toBeSold.listingHistory = listingHistory;
+		idToListing[listingID].canceled = true;
 
 		idToMarketItem[itemID] = toBeSold;
 		_itemsSold.increment();
@@ -248,5 +255,116 @@ contract NFTMarketplace is ReentrancyGuard {
 		}
 
 		return toBeReturned;
+	}
+
+	function getListingIdsLength() public view returns (uint256) {
+		return Listings.length;
+	}
+
+	function getPurchaseIdsLength() public view returns (uint256) {
+		return Purchases.length;
+	}
+
+	function createNewCollection(
+		string calldata name,
+		string calldata description,
+		uint256 totalSupply
+	) public payable nonReentrant {
+		_collectionID.increment();
+
+		uint256 newCollectionId = _collectionID.current();
+
+		NFT newCollectionNFT = new NFT(
+			address(this),
+			totalSupply,
+			name,
+			description
+		);
+
+		idToCollection[newCollectionId] = Collection(
+			newCollectionId,
+			0,
+			0,
+			0,
+			totalSupply,
+			0,
+			name,
+			description,
+			payable(msg.sender),
+			address(newCollectionNFT)
+		);
+
+		emit CollectionCreated(
+			newCollectionId,
+			totalSupply,
+			0,
+			name,
+			description,
+			address(msg.sender),
+			address(newCollectionNFT)
+		);
+	}
+
+	function updateCollectionDescription(
+		uint256 collectionID,
+		string calldata newDescription
+	) public payable nonReentrant {
+		require(
+			idToCollection[collectionID].totalItems != 0,
+			"Collection not found"
+		);
+
+		idToCollection[collectionID].description = newDescription;
+
+		emit CollectionDescriptionUpdated(
+			collectionID,
+			idToCollection[collectionID].name,
+			newDescription,
+			idToCollection[collectionID].collectionAddress
+		);
+	}
+
+	function createNFTOfCollection(
+		uint256 collectionID,
+		string calldata tokenURI
+	) public payable nonReentrant {
+		require(
+			idToCollection[collectionID].totalItems != 0,
+			"Collection not found"
+		);
+
+		_itemID.increment();
+
+		uint256 newItemID = _itemID.current();
+
+		NFT collectionNFT = NFT(idToCollection[collectionID].collectionAddress);
+		uint256 tokenID = collectionNFT.createNFTFromMarketplace(
+			address(msg.sender),
+			tokenURI
+		);
+
+		IERC721(collectionNFT).transferFrom(address(this), msg.sender, tokenID);
+
+		tokenIdToId[tokenID] = newItemID;
+
+		idToMarketItem[newItemID] = MarketItem(
+			newItemID,
+			tokenID,
+			0,
+			address(collectionNFT),
+			payable(address(0)),
+			payable(msg.sender),
+			false
+		);
+
+		marketItemIdToCollectionID[newItemID] = collectionID;
+
+		emit CollectionNFTMinted(
+			collectionID,
+			tokenID,
+			0,
+			address(msg.sender),
+			address(collectionNFT)
+		);
 	}
 }

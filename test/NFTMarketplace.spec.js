@@ -51,7 +51,7 @@ describe("NFTMarketplace", () => {
   });
 
   it("Should successfully cancel a listing", async () => {
-    await expect(NFTMarketplace.cancelMarketListing(tokenID)).to.emit(
+    await expect(NFTMarketplace.cancelMarketListing(tokenID, 1)).to.emit(
       NFTMarketplace,
       "MarketItemCanceled"
     );
@@ -74,9 +74,63 @@ describe("NFTMarketplace", () => {
   });
   it("Should successfully complete a listing", async () => {
     await expect(
-      NFTMarketplace.connect(secondaryAddress).completeMarketListing(tokenID, {
-        value: ethers.utils.parseEther("1"),
-      })
+      NFTMarketplace.connect(secondaryAddress).completeMarketListing(
+        tokenID,
+        1,
+        {
+          value: ethers.utils.parseEther("1"),
+        }
+      )
     ).to.emit(NFTMarketplace, "MarketItemSold");
+  });
+
+  it("Should fail to list if the marketplace fee is not covered", async () => {
+    await expect(
+      NFTMarketplace.connect(secondaryAddress).createMarketListing(
+        1,
+        1,
+        NFT.address
+      )
+    ).to.be.revertedWith("Marketplace Fee not covered, please try again");
+  });
+
+  it("Should fail to list if price is less than 1 WEI", async () => {
+    await expect(
+      NFTMarketplace.connect(secondaryAddress).createMarketListing(
+        1,
+        0,
+        NFT.address
+      )
+    ).to.be.revertedWith("Price must be atleast 1 WEI");
+  });
+
+  it("Should successfully create a new NFT collection", async () => {
+    await expect(
+      NFTMarketplace.createNewCollection("Test", "Test description", 10)
+    ).to.emit(NFTMarketplace, "CollectionCreated");
+  });
+
+  it("Should successfully update description on an NFT Collection", async () => {
+    await expect(
+      NFTMarketplace.updateCollectionDescription(1, "New Description")
+    ).to.emit(NFTMarketplace, "CollectionDescriptionUpdated");
+  });
+
+  it("Should fail to update description on non-existant collection", async () => {
+    await expect(
+      NFTMarketplace.updateCollectionDescription(2, "ABCDEF")
+    ).to.be.revertedWith("Collection not found");
+  });
+
+  it("Should successfully create a NFT of a collection", async () => {
+    await expect(
+      NFTMarketplace.createNFTOfCollection(1, "test token uri")
+    ).to.emit(NFTMarketplace, "CollectionNFTMinted");
+  });
+
+  it("Should fail to mint if collection is non-existant", async () => {
+    await expect(
+      NFTMarketplace.createNFTOfCollection(2, "test token uri")
+    ).to.be.revertedWith("Collection not found");
   });
 });

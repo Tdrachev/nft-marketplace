@@ -30,4 +30,17 @@ contract NFT is ERC721URIStorage {
 		setApprovalForAll(marketplaceAddress, true);
 		return newID;
 	}
+
+	function createNFTFromMarketplace(address owner, string memory tokenURI)
+		public
+		returns (uint256)
+	{
+		_tokenIds.increment();
+		uint256 newID = _tokenIds.current();
+		require(newID < totalSupply, "Supply cannot be exceeded");
+		_mint(marketplaceAddress, newID);
+		_setTokenURI(newID, tokenURI);
+		approve(owner, newID);
+		return newID;
+	}
 }
