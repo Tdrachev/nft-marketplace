@@ -1,12 +1,15 @@
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
-const Header = ({ loadProvider, selectedAccount, disconnect }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  const [provider, setProvider] = useState(null);
+const Header = ({
+  loadProvider,
+  selectedAccount,
+  disconnect,
+  balance,
+  loggedIn,
+}) => {
   const logIn = async () => {
     loadProvider();
-    setLoggedIn(true);
   };
 
   //   const disconnectFromWallet = async () => {
@@ -14,17 +17,19 @@ const Header = ({ loadProvider, selectedAccount, disconnect }) => {
   //     setLoggedIn(false);
   //   };
 
-  useEffect(() => {
-    if (selectedAccount == "0x0") {
-      setLoggedIn(false);
-    }
-  }, [selectedAccount]);
+  //   useEffect(() => {
+  //     if (selectedAccount == "0x0") {
+  //       setLoggedIn(false);
+  //     }
+  //   }, [selectedAccount]);
 
   return (
-    <div className="w-full h-20 bg-gray-500 flex justify-between items-center ">
+    <div className="w-full h-20 bg-gray-500 flex flex-nowrap justify-between items-center pl-10 ">
       {loggedIn ? (
-        <div className="flex justify-between w-full">
-          <p className="ml-5 text-xl">Welcome: {selectedAccount}</p>
+        <div className="flex justify-between ">
+          <p className="ml-5 text-md">
+            Welcome: {selectedAccount} - Balance: {balance} ether
+          </p>
           {/* <button
             className=" border border-gray-300 rounded-md p-3 bg-gray-500  "
             onClick={() => {
@@ -46,6 +51,23 @@ const Header = ({ loadProvider, selectedAccount, disconnect }) => {
           </button>
         </div>
       )}
+      <div className="mr-5">
+        <Link href="/">
+          <a className="mr-5 font-bold text-lg">Home</a>
+        </Link>
+        <Link href="/">
+          <a className="mr-5 font-bold text-lg">Create NFT Collection</a>
+        </Link>
+        <Link href="/">
+          <a className="mr-5 font-bold text-lg">List NFT</a>
+        </Link>
+        <Link href="/">
+          <a className="mr-5 font-bold text-lg">Mint NFTs</a>
+        </Link>
+        <Link href="/">
+          <a className="mr-5 font-bold text-lg">Your NFTs</a>
+        </Link>
+      </div>
     </div>
   );
 };

@@ -7,14 +7,16 @@ import { ethers } from "ethers";
 
 function MyApp({ Component, pageProps }) {
   const [selectedAccount, setSelectedAccount] = useState("0x0");
-
+  const [balance, setBalance] = useState(0);
+  const [loggedIn, setLoggedIn] = useState(false);
   let web3Modal;
   let provider;
 
   async function connect() {
     web3Modal = new Web3Modal();
     provider = await web3Modal.connect();
-    // provider = new ethers.providers.Web3Provider(connection);
+    setLoggedIn(true);
+
     fetchAccountData();
     provider.on("accountsChanged", () => {
       fetchAccountData();
@@ -34,9 +36,13 @@ function MyApp({ Component, pageProps }) {
     const accounts = await web3.eth.getAccounts();
     if (accounts[0] == null) {
       setSelectedAccount("0x0");
+      setLoggedIn(false);
       return;
     }
-    setSelectedAccount(accounts[0]);
+    await setSelectedAccount(accounts[0]);
+    const balanceInWei = await web3.eth.getBalance(accounts[0]);
+    const balanceInEth = await web3.utils.fromWei(balanceInWei, "ether");
+    setBalance(balanceInEth);
   }
 
   // async function disconnect() {
@@ -50,6 +56,8 @@ function MyApp({ Component, pageProps }) {
       {...pageProps}
       loadProvider={connect}
       selectedAccount={selectedAccount}
+      balance={balance}
+      loggedIn={loggedIn}
     />
   );
 }

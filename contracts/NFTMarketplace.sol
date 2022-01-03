@@ -64,13 +64,13 @@ contract NFTMarketplace is ReentrancyGuard {
 	}
 
 	address payable marketplaceOwner;
-	uint256 marketplaceFee = 0.025 ether;
+	uint256 public marketplaceFee = 0.025 ether;
 
 	uint256[] public Listings;
 	uint256[] public Purchases;
 	uint256[] public Bids;
 
-	mapping(uint256 => uint256) tokenIdToId;
+	mapping(uint256 => uint256) public tokenIdToId;
 	mapping(uint256 => MarketItem) public idToMarketItem;
 	mapping(uint256 => Collection) public idToCollection;
 	mapping(uint256 => uint256) public marketItemIdToCollectionID;
