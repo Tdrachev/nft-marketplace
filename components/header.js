@@ -55,7 +55,7 @@ const Header = ({
         <Link href="/">
           <a className="mr-5 font-bold text-lg">Home</a>
         </Link>
-        <Link href="/">
+        <Link href="/createNFTCollection">
           <a className="mr-5 font-bold text-lg">Create NFT Collection</a>
         </Link>
         <Link href="/">
