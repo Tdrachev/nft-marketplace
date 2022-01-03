@@ -133,4 +133,49 @@ describe("NFTMarketplace", () => {
       NFTMarketplace.createNFTOfCollection(2, "test token uri")
     ).to.be.revertedWith("Collection not found");
   });
+
+  it("Should successfully place a bid on an nft", async () => {
+    await expect(
+      NFTMarketplace.bidOnMarketListing(1, 1, {
+        value: ethers.utils.parseEther("1"),
+      })
+    ).to.emit(NFTMarketplace, "MarketItemBidOn");
+  });
+
+  it("Should fail to place a bid on an nft if value sent is less than offer", async () => {
+    await expect(
+      NFTMarketplace.bidOnMarketListing(1, 1, {
+        value: ethers.utils.parseEther("0.9"),
+      })
+    ).to.be.revertedWith("Value sent does not match offer");
+  });
+
+  it("Should fail to accept bid if the caller is not the seller", async () => {
+    await expect(
+      NFTMarketplace.connect(secondaryAddress).acceptMarketBid(1)
+    ).to.be.revertedWith("Only seller can accept this market bid");
+  });
+
+  it("Should successfully relist the NFT", async () => {
+    await expect(
+      NFTMarketplace.connect(secondaryAddress).createMarketListing(
+        1,
+        ethers.utils.parseEther("1"),
+        NFT.address,
+        {
+          value: ethers.utils.parseEther("0.025"),
+        }
+      )
+    ).to.emit(NFTMarketplace, "MarketItemListed");
+  });
+
+  it("Should successfully accept the bid if is the item seller", async () => {
+    await NFTMarketplace.connect(adminAddress).bidOnMarketListing(1, 1, {
+      value: ethers.utils.parseEther("1"),
+    });
+
+    await expect(
+      NFTMarketplace.connect(secondaryAddress).acceptMarketBid(1)
+    ).to.emit(NFTMarketplace, "MarketItemSold");
+  });
 });

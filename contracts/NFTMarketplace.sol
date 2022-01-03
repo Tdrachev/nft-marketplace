@@ -16,6 +16,7 @@ contract NFTMarketplace is ReentrancyGuard {
 	Counters.Counter private _collectionID;
 	Counters.Counter private _listingID;
 	Counters.Counter private _purchaseID;
+	Counters.Counter private _bidId;
 
 	struct MarketItem {
 		uint256 itemID;
@@ -54,11 +55,20 @@ contract NFTMarketplace is ReentrancyGuard {
 		address collectionAddress;
 	}
 
+	struct Bid {
+		address nftAddress;
+		address buyer;
+		uint256 tokenId;
+		uint256 offer;
+		bool accepted;
+	}
+
 	address payable marketplaceOwner;
 	uint256 marketplaceFee = 0.025 ether;
 
 	uint256[] public Listings;
 	uint256[] public Purchases;
+	uint256[] public Bids;
 
 	mapping(uint256 => uint256) tokenIdToId;
 	mapping(uint256 => MarketItem) public idToMarketItem;
@@ -66,6 +76,8 @@ contract NFTMarketplace is ReentrancyGuard {
 	mapping(uint256 => uint256) public marketItemIdToCollectionID;
 	mapping(uint256 => Purchase) public idToPurchase;
 	mapping(uint256 => Listing) public idToListing;
+	mapping(uint256 => Bid) public idToBid;
+	mapping(uint256 => uint256) public tokenIdToHighestBid;
 
 	event MarketItemListed(
 		uint256 tokenID,
@@ -95,8 +107,7 @@ contract NFTMarketplace is ReentrancyGuard {
 		uint256 tokenID,
 		uint256 bid,
 		address nftContract,
-		address seller,
-		address owner
+		address buyer
 	);
 
 	event CollectionCreated(
@@ -145,6 +156,9 @@ contract NFTMarketplace is ReentrancyGuard {
 
 		uint256 newItemID = _itemID.current();
 		uint256 newListingID = _listingID.current();
+
+		IERC721(nftContract).transferFrom(msg.sender, address(this), tokenID);
+
 		Listing memory newListing = Listing(tokenID, price, msg.sender, false);
 		idToListing[newListingID] = newListing;
 		Listings.push(newListingID);
@@ -160,7 +174,6 @@ contract NFTMarketplace is ReentrancyGuard {
 		);
 
 		tokenIdToId[tokenID] = newItemID;
-		IERC721(nftContract).transferFrom(msg.sender, address(this), tokenID);
 
 		emit MarketItemListed(
 			tokenID,
@@ -219,6 +232,7 @@ contract NFTMarketplace is ReentrancyGuard {
 			msg.sender,
 			tokenID
 		);
+
 		marketplaceOwner.transfer(marketplaceFee);
 		toBeSold.seller.transfer(msg.value);
 		toBeSold.sold = true;
@@ -365,6 +379,74 @@ contract NFTMarketplace is ReentrancyGuard {
 			0,
 			address(msg.sender),
 			address(collectionNFT)
+		);
+	}
+
+	function bidOnMarketListing(uint256 tokenId, uint256 offer)
+		public
+		payable
+		nonReentrant
+	{
+		uint256 valueInEth = offer * (1 ether);
+
+		require(msg.value == valueInEth, "Value sent does not match offer");
+		_bidId.increment();
+
+		uint256 currentBidId = _bidId.current();
+		uint256 itemId = tokenIdToId[tokenId];
+		address nftAddress = idToMarketItem[itemId].nftContract;
+
+		idToBid[currentBidId] = Bid(
+			nftAddress,
+			msg.sender,
+			tokenId,
+			offer,
+			false
+		);
+		tokenIdToHighestBid[tokenId] = currentBidId;
+		Bids.push(currentBidId);
+
+		emit MarketItemBidOn(tokenId, offer, nftAddress, msg.sender);
+	}
+
+	function acceptMarketBid(uint256 tokenId) public payable nonReentrant {
+		uint256 highestBidId = tokenIdToHighestBid[tokenId];
+		Bid memory highestBid = idToBid[highestBidId];
+		uint256 itemID = tokenIdToId[tokenId];
+		MarketItem memory ToBeSold = idToMarketItem[itemID];
+
+		uint256 bidValue = highestBid.offer;
+
+		require(
+			msg.sender == ToBeSold.seller,
+			"Only seller can accept this market bid"
+		);
+
+		require(ToBeSold.sold == false, "Item is already sold");
+
+		ToBeSold.seller.transfer(bidValue);
+
+		IERC721(ToBeSold.nftContract).transferFrom(
+			address(this),
+			highestBid.buyer,
+			tokenId
+		);
+
+		highestBid.accepted = true;
+		idToBid[highestBidId] = highestBid;
+
+		ToBeSold.sold = true;
+
+		idToMarketItem[itemID] = ToBeSold;
+
+		_itemsSold.increment();
+		emit MarketItemSold(
+			tokenId,
+			bidValue,
+			ToBeSold.nftContract,
+			ToBeSold.seller,
+			highestBid.buyer,
+			true
 		);
 	}
 }
