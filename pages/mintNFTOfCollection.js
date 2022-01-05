@@ -18,7 +18,7 @@ const CreateNFTCollection = ({
 }) => {
   const [file, setFile] = useState();
   const [imgPreview, setImagePreview] = useState();
-  const [collection, setCollection] = useState();
+  const [collection, setCollection] = useState(1);
   const [collections, setCollections] = useState([]);
   const [hasCollections, setHasCollections] = useState(false);
   const mintNFT = async (e) => {
@@ -29,8 +29,8 @@ const CreateNFTCollection = ({
       const imageUp = await ipfs.add(file);
       const imagePath = `https://ipfs.infura.io/ipfs/${imageUp.path}`;
 
-      const { name, description, image } = collections[collection];
-      tokenURI = JSON.stringify({ name, description, image });
+      const { name, description } = collections[collection];
+      tokenURI = JSON.stringify({ name, description, image: imagePath });
       const res = await mintNFTOfCollection(tokenURI, collection);
       if (res) {
         window.location.href = "/";
@@ -62,9 +62,9 @@ const CreateNFTCollection = ({
         <form className="flex flex-col items-center justify-center border border-gray-400 p-20">
           <select
             name="collection"
+            value={collection}
             onChange={(e) => {
               setCollection(e.target.value);
-              console.log(collection);
             }}
           >
             {collections.map((i) => {
