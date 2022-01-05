@@ -455,4 +455,9 @@ contract NFTMarketplace is ReentrancyGuard {
 
 		return collections;
 	}
+
+	function getTotalMarketItems() public view returns (uint256) {
+		uint256 toReturn = _itemID.current();
+		return toReturn;
+	}
 }

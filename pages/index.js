@@ -1,7 +1,11 @@
+import { ethers } from "ethers";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/header";
 import NFTBox from "../components/nftBox";
+
+import { FetchAllNFTs } from "../lib/contractInteractions";
+
 export default function Home({
   loadProvider,
   selectedAccount,
@@ -11,7 +15,12 @@ export default function Home({
 }) {
   const [nfts, setNfts] = useState([]);
 
-  async function LoadAllNFTs() {}
+  useEffect(async () => {
+    const res = await FetchAllNFTs();
+    if (res != []) {
+      setNfts(res);
+    }
+  }, []);
 
   return (
     <div>
@@ -22,16 +31,20 @@ export default function Home({
         loggedIn={loggedIn}
       />
       <div className="flex flex-wrap">
-        <NFTBox></NFTBox>
-        <NFTBox></NFTBox>
-        <NFTBox></NFTBox>
-        <NFTBox></NFTBox>
-        <NFTBox></NFTBox>
-        <NFTBox></NFTBox>
-        <NFTBox></NFTBox>
-        <NFTBox></NFTBox>
-        <NFTBox></NFTBox>
-        <NFTBox></NFTBox>
+        {nfts.map((i) => {
+          return (
+            <NFTBox
+              key={ethers.BigNumber.from(i.tokenID).toNumber() + i.name}
+              collection={i.name}
+              Id={ethers.BigNumber.from(i.tokenID).toNumber()}
+              Price={
+                ethers.BigNumber.from(i.price).toNumber() != 0
+                  ? ethers.BigNumber.from(i.price).toNumber()
+                  : "Not for sale"
+              }
+            ></NFTBox>
+          );
+        })}
       </div>
     </div>
   );
