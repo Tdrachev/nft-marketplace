@@ -449,4 +449,10 @@ contract NFTMarketplace is ReentrancyGuard {
 			true
 		);
 	}
+
+	function getTotalCollections() public view returns (uint256) {
+		uint256 collections = _collectionID.current();
+
+		return collections;
+	}
 }

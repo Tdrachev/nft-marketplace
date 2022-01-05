@@ -15,10 +15,10 @@ const CreateNFTCollection = ({
   const [description, setDescription] = useState("");
   const [fee, setFee] = useState(0);
   const [totalSupply, setTotalSupply] = useState(0);
-
-  const createCollection = async (e) => {
+  const [file, setFile] = useState();
+  const mintNFT = async (e) => {
     e.preventDefault();
-    const supplyAsBigInt = ethers.BigNumber.from(totalSupply);
+
     const result = await CreateNewCollection(name, description, supplyAsBigInt);
     if (result == true) {
       window.location.href = "/";
@@ -34,9 +34,17 @@ const CreateNFTCollection = ({
         loggedIn={loggedIn}
       ></Header>
       <div className="flex flex-col justify-evenly items-center align-center w-full h-full mt-5">
-        <p className="text-xl bold  uppercase">Create a new nft collection:</p>
+        <p className="text-xl bold  uppercase">Mint a new NFT of Collection:</p>
         <form className="flex flex-col items-center justify-center border border-gray-400 p-20">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="image">Image</label>
+          <img src={file} className="w-auto h-96" />
+          <input
+            type={"file"}
+            accept="image/*"
+            name="image"
+            onChange={(e) => setFile(URL.createObjectURL(e.target.files[0]))}
+          ></input>
+          {/* <label htmlFor="name">Name</label>
           <input
             name="name"
             type="text"
@@ -45,8 +53,8 @@ const CreateNFTCollection = ({
               setName(v.target.value);
             }}
             className="border border-gray-400"
-          ></input>
-          <label htmlFor="description">Description</label>
+          ></input> */}
+          {/* <label htmlFor="description">Description</label>
           <input
             name="description"
             type="text"
@@ -55,7 +63,7 @@ const CreateNFTCollection = ({
               setDescription(v.target.value);
             }}
             className="border border-gray-400"
-          ></input>
+          ></input> */}
           {/* <label htmlFor="fee">Fee in %:</label>
           <input
             name="fee"
@@ -66,7 +74,7 @@ const CreateNFTCollection = ({
             }}
             className="border border-gray-400"
           ></input> */}
-          <label htmlFor="supply">Total supply:</label>
+          {/* <label htmlFor="supply">Total supply:</label>
           <input
             name="supply"
             type="number"
@@ -75,12 +83,12 @@ const CreateNFTCollection = ({
               setTotalSupply(v.target.value);
             }}
             className="border border-gray-400"
-          ></input>
+          ></input> */}
           <button
             className="border border-gray-400 p-5 mt-2 rounded-3xl"
-            onClick={createCollection}
+            onClick={mintNFT}
           >
-            Create Collection
+            Mint NFT
           </button>
         </form>
       </div>
