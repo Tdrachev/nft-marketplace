@@ -23,6 +23,7 @@ const CreateNFTCollection = ({
   const [collections, setCollections] = useState([]);
   const [hasCollections, setHasCollections] = useState(false);
   const router = useRouter();
+
   const mintNFT = async (e) => {
     e.preventDefault();
     console.log(file);
@@ -60,36 +61,40 @@ const CreateNFTCollection = ({
         loggedIn={loggedIn}
       ></Header>
       <div className="flex flex-col justify-evenly items-center align-center w-full h-full mt-5">
-        <p className="text-xl bold  uppercase">Mint a new NFT of Collection:</p>
-        <form className="flex flex-col items-center justify-center border border-gray-400 p-20">
-          <select
-            name="collection"
-            value={collection}
-            onChange={(e) => {
-              setCollection(e.target.value);
-            }}
-          >
-            <option value={0}>None</option>
-            {collections.map((i) => {
-              return (
-                <option key={i.collectionAddress} value={i.collectionID}>
-                  {i.name}
-                </option>
-              );
-            })}
-          </select>
-          <label htmlFor="image">Image</label>
-          <img src={imgPreview} className="w-auto h-96" />
-          <input
-            type={"file"}
-            accept="image/*"
-            name="image"
-            onChange={(e) => {
-              setImagePreview(URL.createObjectURL(e.target.files[0]));
-              setFile(e.target.files[0]);
-            }}
-          ></input>
-          {/* <label htmlFor="name">Name</label>
+        {loggedIn ? (
+          <span>
+            <p className="text-xl bold  uppercase">
+              Mint a new NFT of Collection:
+            </p>
+            <form className="flex flex-col items-center justify-center border border-gray-400 p-20">
+              <select
+                name="collection"
+                value={collection}
+                onChange={(e) => {
+                  setCollection(e.target.value);
+                }}
+              >
+                <option value={0}>None</option>
+                {collections.map((i) => {
+                  return (
+                    <option key={i.collectionAddress} value={i.collectionID}>
+                      {i.name}
+                    </option>
+                  );
+                })}
+              </select>
+              <label htmlFor="image">Image</label>
+              <img src={imgPreview} className="w-auto h-96" />
+              <input
+                type={"file"}
+                accept="image/*"
+                name="image"
+                onChange={(e) => {
+                  setImagePreview(URL.createObjectURL(e.target.files[0]));
+                  setFile(e.target.files[0]);
+                }}
+              ></input>
+              {/* <label htmlFor="name">Name</label>
           <input
             name="name"
             type="text"
@@ -99,7 +104,7 @@ const CreateNFTCollection = ({
             }}
             className="border border-gray-400"
           ></input> */}
-          {/* <label htmlFor="description">Description</label>
+              {/* <label htmlFor="description">Description</label>
           <input
             name="description"
             type="text"
@@ -109,7 +114,7 @@ const CreateNFTCollection = ({
             }}
             className="border border-gray-400"
           ></input> */}
-          {/* <label htmlFor="fee">Fee in %:</label>
+              {/* <label htmlFor="fee">Fee in %:</label>
           <input
             name="fee"
             type="number"
@@ -119,7 +124,7 @@ const CreateNFTCollection = ({
             }}
             className="border border-gray-400"
           ></input> */}
-          {/* <label htmlFor="supply">Total supply:</label>
+              {/* <label htmlFor="supply">Total supply:</label>
           <input
             name="supply"
             type="number"
@@ -129,13 +134,19 @@ const CreateNFTCollection = ({
             }}
             className="border border-gray-400"
           ></input> */}
-          <button
-            className="border border-gray-400 p-5 mt-2 rounded-3xl"
-            onClick={mintNFT}
-          >
-            Mint NFT
-          </button>
-        </form>
+              <button
+                className="border border-gray-400 p-5 mt-2 rounded-3xl"
+                onClick={mintNFT}
+              >
+                Mint NFT
+              </button>
+            </form>
+          </span>
+        ) : (
+          <p className="text-bold text-center font-bold text-4xl mt-5">
+            Please connect your wallet to mint NFTs
+          </p>
+        )}
       </div>
     </Fragment>
   );

@@ -34,29 +34,33 @@ const CreateNFTCollection = ({
         loggedIn={loggedIn}
       ></Header>
       <div className="flex flex-col justify-evenly items-center align-center w-full h-full mt-5">
-        <p className="text-xl bold  uppercase">Create a new nft collection:</p>
-        <form className="flex flex-col items-center justify-center border border-gray-400 p-20">
-          <label htmlFor="name">Name</label>
-          <input
-            name="name"
-            type="text"
-            value={name}
-            onChange={(v) => {
-              setName(v.target.value);
-            }}
-            className="border border-gray-400"
-          ></input>
-          <label htmlFor="description">Description</label>
-          <input
-            name="description"
-            type="text"
-            value={description}
-            onChange={(v) => {
-              setDescription(v.target.value);
-            }}
-            className="border border-gray-400"
-          ></input>
-          {/* <label htmlFor="fee">Fee in %:</label>
+        {loggedIn ? (
+          <span>
+            <p className="text-xl bold  uppercase">
+              Create a new nft collection:
+            </p>
+            <form className="flex flex-col items-center justify-center border border-gray-400 p-20">
+              <label htmlFor="name">Name</label>
+              <input
+                name="name"
+                type="text"
+                value={name}
+                onChange={(v) => {
+                  setName(v.target.value);
+                }}
+                className="border border-gray-400"
+              ></input>
+              <label htmlFor="description">Description</label>
+              <input
+                name="description"
+                type="text"
+                value={description}
+                onChange={(v) => {
+                  setDescription(v.target.value);
+                }}
+                className="border border-gray-400"
+              ></input>
+              {/* <label htmlFor="fee">Fee in %:</label>
           <input
             name="fee"
             type="number"
@@ -66,23 +70,29 @@ const CreateNFTCollection = ({
             }}
             className="border border-gray-400"
           ></input> */}
-          <label htmlFor="supply">Total supply:</label>
-          <input
-            name="supply"
-            type="number"
-            value={totalSupply}
-            onChange={(v) => {
-              setTotalSupply(v.target.value);
-            }}
-            className="border border-gray-400"
-          ></input>
-          <button
-            className="border border-gray-400 p-5 mt-2 rounded-3xl"
-            onClick={createCollection}
-          >
-            Create Collection
-          </button>
-        </form>
+              <label htmlFor="supply">Total supply:</label>
+              <input
+                name="supply"
+                type="number"
+                value={totalSupply}
+                onChange={(v) => {
+                  setTotalSupply(v.target.value);
+                }}
+                className="border border-gray-400"
+              ></input>
+              <button
+                className="border border-gray-400 p-5 mt-2 rounded-3xl"
+                onClick={createCollection}
+              >
+                Create Collection
+              </button>
+            </form>{" "}
+          </span>
+        ) : (
+          <p className="text-bold text-center font-bold text-4xl mt-5">
+            Please connect your wallet to create collections
+          </p>
+        )}
       </div>
     </Fragment>
   );

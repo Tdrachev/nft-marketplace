@@ -86,87 +86,99 @@ const YourNFT = ({
         loggedIn={loggedIn}
       />
       <div className="flex flex-col flex-wrap ">
-        <div>
-          <p className=" font-bold text-center text-3xl mt-5">Your NFTs:</p>
-          <form className="flex flex-row justify-items-start align-center mt-10 ml-10 border-4 p-3 w-max">
-            <label htmlFor="filter_collection">Filter by collection:</label>
-            <select
-              name="filter_collection"
-              value={collection}
-              onChange={(e) => {
-                setCollection(e.target.value);
-              }}
-            >
-              <option value={0}>None</option>
-              {collections.map((i) => {
-                return (
-                  <option key={i.collectionAddress} value={i.collectionID}>
-                    {i.name}
-                  </option>
-                );
-              })}
-            </select>
-          </form>
-          <div className="flex  flex-wrap align-center">
-            {loadedNFTs
-              ? filteredCollections.map((i) => {
-                  return (
-                    <NFTBox
-                      key={ethers.BigNumber.from(i.tokenID).toNumber() + i.name}
-                      collection={i.name}
-                      Id={ethers.BigNumber.from(i.itemID).toNumber()}
-                      Price={formatPrice(i.price)}
-                      image={i.tokenURI.image}
-                      collectionID={i.collectionID}
-                    ></NFTBox>
-                  );
-                })
-              : null}
-          </div>
-        </div>
-      </div>
-      <hr></hr>
-      <div>
-        <p className=" font-bold text-center text-3xl mt-5">
-          Your Listed NFTs:
-        </p>
-        <form className="flex flex-row justify-items-start align-center mt-10 ml-10 border-4 p-3 w-max">
-          <label htmlFor="filter_listed_collection">
-            Filter by collection:
-          </label>
-          <select
-            name="filter_listed_collection"
-            value={listedCollection}
-            onChange={(e) => {
-              setListedCollection(e.target.value);
-            }}
-          >
-            <option value={0}>None</option>
-            {collections.map((i) => {
-              return (
-                <option key={i.collectionAddress} value={i.collectionID}>
-                  {i.name}
-                </option>
-              );
-            })}
-          </select>
-        </form>
-        <div className="flex  flex-wrap align-center">
-          {loadedNFTs
-            ? filteredListedNFTs.map((i) => {
-                return (
-                  <NFTBox
-                    key={ethers.BigNumber.from(i.tokenID).toNumber() + i.name}
-                    collection={i.name}
-                    Id={ethers.BigNumber.from(i.itemID).toNumber()}
-                    Price={formatPrice(i.price)}
-                    image={i.tokenURI.image}
-                    collectionID={i.collectionID}
-                  ></NFTBox>
-                );
-              })
-            : null}
-        </div>
+        {loggedIn ? (
+          <span>
+            <div className="p-20">
+              <p className=" font-bold text-center text-3xl mt-5">Your NFTs:</p>
+              <form className="flex flex-row justify-items-start align-center mt-10 ml-10 border-4 p-3 w-max">
+                <label htmlFor="filter_collection">Filter by collection:</label>
+                <select
+                  name="filter_collection"
+                  value={collection}
+                  onChange={(e) => {
+                    setCollection(e.target.value);
+                  }}
+                >
+                  <option value={0}>None</option>
+                  {collections.map((i) => {
+                    return (
+                      <option key={i.collectionAddress} value={i.collectionID}>
+                        {i.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </form>
+              <div className="flex  flex-wrap align-center">
+                {loadedNFTs
+                  ? filteredCollections.map((i) => {
+                      return (
+                        <NFTBox
+                          key={
+                            ethers.BigNumber.from(i.tokenID).toNumber() + i.name
+                          }
+                          collection={i.name}
+                          Id={ethers.BigNumber.from(i.itemID).toNumber()}
+                          Price={formatPrice(i.price)}
+                          image={i.tokenURI.image}
+                          collectionID={i.collectionID}
+                        ></NFTBox>
+                      );
+                    })
+                  : null}
+              </div>
+            </div>
+            <hr></hr>
+            <div className="pt-8">
+              <p className=" font-bold text-center text-3xl mt-5">
+                Your Listed NFTs:
+              </p>
+              <form className="flex flex-row justify-items-start align-center mt-10 ml-10 border-4 p-3 w-max">
+                <label htmlFor="filter_listed_collection">
+                  Filter by collection:
+                </label>
+                <select
+                  name="filter_listed_collection"
+                  value={listedCollection}
+                  onChange={(e) => {
+                    setListedCollection(e.target.value);
+                  }}
+                >
+                  <option value={0}>None</option>
+                  {collections.map((i) => {
+                    return (
+                      <option key={i.collectionAddress} value={i.collectionID}>
+                        {i.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </form>
+              <div className="flex  flex-wrap align-center">
+                {loadedNFTs
+                  ? filteredListedNFTs.map((i) => {
+                      return (
+                        <NFTBox
+                          key={
+                            ethers.BigNumber.from(i.tokenID).toNumber() + i.name
+                          }
+                          collection={i.name}
+                          Id={ethers.BigNumber.from(i.itemID).toNumber()}
+                          Price={formatPrice(i.price)}
+                          image={i.tokenURI.image}
+                          collectionID={i.collectionID}
+                        ></NFTBox>
+                      );
+                    })
+                  : null}
+              </div>
+            </div>
+          </span>
+        ) : (
+          <p className="text-bold text-center font-bold text-4xl mt-5">
+            Please connect your wallet to see your NFTs
+          </p>
+        )}
       </div>
     </div>
   );

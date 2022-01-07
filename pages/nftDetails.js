@@ -16,7 +16,13 @@ import Header from "../components/header";
 import { ethers } from "ethers";
 import { useRouter } from "next/router";
 
-const NftDetails = ({ loggedIn, loadProvider, selectedAccount, balance }) => {
+const NftDetails = ({
+  loggedIn,
+  loadProvider,
+  selectedAccount,
+  balance,
+  id,
+}) => {
   const [imgSrc, setImgSrc] = useState("");
   const [collection, setCollection] = useState("");
   const [tokenID, setTokenID] = useState();
@@ -25,11 +31,12 @@ const NftDetails = ({ loggedIn, loadProvider, selectedAccount, balance }) => {
   const [salePrice, setSalePrice] = useState("");
   const [marketItem, setMarketItem] = useState();
   const [bidPrice, setBidPrice] = useState(0);
-  const [highestBid, setHighestBid] = useState(0);
+  const [highestBid, setHighestBid] = useState(null);
   const router = useRouter();
 
   useEffect(async () => {
-    const ID = router.query.id;
+    const params = new URLSearchParams(window.location.search);
+    const ID = router.query.id || params.get("id");
 
     const MarketItem = await GetTokenByItemID(ID);
 
@@ -88,7 +95,12 @@ const NftDetails = ({ loggedIn, loadProvider, selectedAccount, balance }) => {
   const bidOnNFT = async (e) => {
     e.preventDefault();
     const ID = ethers.BigNumber.from(marketItem.tokenID).toNumber();
+    const lastHigherOffer = ethers.BigNumber.from(highestBid.offer).toNumber();
 
+    if (bidPrice <= lastHigherOffer) {
+      setBidPrice("Bid must be higher than the last one");
+      return;
+    }
     const result = await BidOnMarketListing(ID, bidPrice);
     if (result) {
       router.push("/");
@@ -133,88 +145,131 @@ const NftDetails = ({ loggedIn, loadProvider, selectedAccount, balance }) => {
           <p>{price == 0 ? "Not for sale" : price + " ETH"}</p>
           <p>{description}</p>
         </div>
-        {price == 0 ? (
-          <form className="flex flex-col mt-10 border border-gray-500 p-10" rel>
-            <label htmlFor="price">Price in ETH:</label>
-            <input
-              className="border border-gray-600"
-              name="price"
-              type={"text"}
-              value={salePrice}
-              onChange={(e) => setSalePrice(e.target.value)}
-            ></input>
-            <button className="mt-5 border-2 p-2 rounded-xl " onClick={listNFT}>
-              Create Listing
-            </button>
-          </form>
-        ) : selectedAccount == marketItem.seller ? (
-          <form className="flex flex-col mt-10 border border-gray-500 p-10" rel>
-            <button
-              className="mt-5 border-2 p-2 rounded-xl "
-              onClick={cancelNFT}
+        {loggedIn ? (
+          price == 0 ? (
+            <form
+              className="flex flex-col mt-10 border border-gray-500 p-10"
+              rel
             >
-              Cancel Listing
-            </button>
-            {highestBid ? (
-              ethers.BigNumber.from(highestBid.offer).toNumber() > 0 ? (
+              <label htmlFor="price">Price in ETH:</label>
+              <input
+                className="border border-gray-600"
+                name="price"
+                type={"text"}
+                value={salePrice}
+                onChange={(e) => setSalePrice(e.target.value)}
+              ></input>
+              <button
+                className="mt-5 border-2 p-2 rounded-xl "
+                onClick={listNFT}
+              >
+                Create Listing
+              </button>
+            </form>
+          ) : selectedAccount == marketItem.seller ? (
+            <form
+              className="flex flex-col mt-10 border border-gray-500 p-10"
+              rel
+            >
+              <button
+                className="mt-5 border-2 p-2 rounded-xl "
+                onClick={cancelNFT}
+              >
+                Cancel Listing
+              </button>
+              {highestBid ? (
+                ethers.BigNumber.from(highestBid.offer).toNumber() > 0 ? (
+                  <span className="flex flex-col">
+                    <br></br>
+                    <hr></hr>
+                    <br></br>
+                    <label htmlFor="highest_bid">
+                      Highest Bid:
+                      {ethers.BigNumber.from(highestBid.offer).toNumber() +
+                        " ETH"}
+                    </label>
+                    <button
+                      className="mt-5 border-2 p-2 rounded-xl "
+                      onClick={acceptHighestBid}
+                    >
+                      Accept Bid
+                    </button>
+                  </span>
+                ) : null
+              ) : null}
+            </form>
+          ) : (
+            <form
+              className="flex flex-col mt-10 border border-gray-500 p-10"
+              rel
+            >
+              <button
+                className="mt-5 border-2 p-2 rounded-xl "
+                onClick={buyNFT}
+              >
+                Buy NFT
+              </button>
+              {highestBid ? (
+                highestBid.buyer != selectedAccount ? (
+                  <span className="flex flex-col">
+                    <br></br>
+                    <hr></hr>
+                    <br></br>
+                    <label htmlFor="bid">Price in ETH:</label>
+                    <input
+                      className="border border-gray-600"
+                      name="bid"
+                      type={"text"}
+                      value={bidPrice}
+                      onChange={(e) => setBidPrice(e.target.value)}
+                    ></input>
+                    <button
+                      className="mt-5 border-2 p-2 rounded-xl "
+                      onClick={bidOnNFT}
+                    >
+                      Bid on NFT
+                    </button>
+                  </span>
+                ) : (
+                  <span className="flex flex-col">
+                    <br></br>
+                    <hr></hr>
+                    <br></br>
+                    <button
+                      className="mt-5 border-2 p-2 rounded-xl "
+                      onClick={cancelBid}
+                    >
+                      Cancel Bid
+                    </button>
+                  </span>
+                )
+              ) : (
                 <span className="flex flex-col">
                   <br></br>
                   <hr></hr>
                   <br></br>
-                  <label htmlFor="highest_bid">
-                    Highest Bid:
-                    {ethers.BigNumber.from(highestBid.offer).toNumber() +
-                      " ETH"}
-                  </label>
+                  <label htmlFor="bid">Price in ETH:</label>
+                  <input
+                    className="border border-gray-600"
+                    name="bid"
+                    type={"text"}
+                    value={bidPrice}
+                    onChange={(e) => setBidPrice(e.target.value)}
+                  ></input>
                   <button
                     className="mt-5 border-2 p-2 rounded-xl "
-                    onClick={acceptHighestBid}
+                    onClick={bidOnNFT}
                   >
-                    Accept Bid
+                    Bid on NFT
                   </button>
                 </span>
-              ) : null
-            ) : null}
-          </form>
+              )}
+            </form>
+          )
         ) : (
-          <form className="flex flex-col mt-10 border border-gray-500 p-10" rel>
-            <button className="mt-5 border-2 p-2 rounded-xl " onClick={buyNFT}>
-              Buy NFT
-            </button>
-            {highestBid.buyer != selectedAccount ? (
-              <span className="flex flex-col">
-                <br></br>
-                <hr></hr>
-                <br></br>
-                <label htmlFor="bid">Price in ETH:</label>
-                <input
-                  className="border border-gray-600"
-                  name="bid"
-                  type={"text"}
-                  value={bidPrice}
-                  onChange={(e) => setBidPrice(e.target.value)}
-                ></input>
-                <button
-                  className="mt-5 border-2 p-2 rounded-xl "
-                  onClick={bidOnNFT}
-                >
-                  Bid on NFT
-                </button>
-              </span>
-            ) : (
-              <span className="flex flex-col">
-                <br></br>
-                <hr></hr>
-                <br></br>
-                <button
-                  className="mt-5 border-2 p-2 rounded-xl "
-                  onClick={cancelBid}
-                >
-                  Cancel Bid
-                </button>
-              </span>
-            )}
-          </form>
+          <p className="mt-5 text-xl font-bold  border p-5">
+            Connect wallet to interact with the NFT
+          </p>
         )}
       </div>
     </Fragment>
