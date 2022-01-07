@@ -198,18 +198,20 @@ contract NFTMarketplace is ReentrancyGuard {
 			"Only original seller can cancel"
 		);
 
-		marketItemToCancel.sold = false;
-		marketItemToCancel.owner = payable(msg.sender);
-
-		idToListing[listingID].canceled = true;
-
-		idToMarketItem[itemID] = marketItemToCancel;
-
 		IERC721(nftContract).safeTransferFrom(
 			address(this),
 			marketItemToCancel.seller,
 			marketItemToCancel.tokenID
 		);
+
+		marketItemToCancel.sold = false;
+		marketItemToCancel.owner = payable(msg.sender);
+		marketItemToCancel.seller = payable(address(0));
+		marketItemToCancel.price = 0;
+
+		idToListing[listingID].canceled = true;
+
+		idToMarketItem[itemID] = marketItemToCancel;
 
 		emit MarketItemCanceled(tokenID, nftContract, msg.sender, msg.sender);
 	}
@@ -222,8 +224,13 @@ contract NFTMarketplace is ReentrancyGuard {
 		uint256 itemID = tokenIdToId[tokenID];
 		MarketItem storage toBeSold = idToMarketItem[itemID];
 
+		uint256 msgValueInETH = msg.value * (1 ether);
+		uint256 itemValueInETH = toBeSold.price * (1 ether);
+		console.log(toBeSold.price);
+		console.log(msgValueInETH);
+
 		require(
-			msg.value == toBeSold.price,
+			msg.value == itemValueInETH,
 			"The item you are trying to buy costs more than you are trying to send"
 		);
 
@@ -236,8 +243,9 @@ contract NFTMarketplace is ReentrancyGuard {
 		marketplaceOwner.transfer(marketplaceFee);
 		toBeSold.seller.transfer(msg.value);
 		toBeSold.sold = true;
-		toBeSold.seller = payable(msg.sender);
+		toBeSold.seller = payable(address(0));
 		toBeSold.owner = payable(msg.sender);
+		toBeSold.price = 0;
 
 		idToListing[listingID].canceled = true;
 
@@ -411,8 +419,11 @@ contract NFTMarketplace is ReentrancyGuard {
 
 	function acceptMarketBid(uint256 tokenId) public payable nonReentrant {
 		uint256 highestBidId = tokenIdToHighestBid[tokenId];
+
 		Bid memory highestBid = idToBid[highestBidId];
+
 		uint256 itemID = tokenIdToId[tokenId];
+
 		MarketItem memory ToBeSold = idToMarketItem[itemID];
 
 		uint256 bidValue = highestBid.offer;
@@ -424,18 +435,22 @@ contract NFTMarketplace is ReentrancyGuard {
 
 		require(ToBeSold.sold == false, "Item is already sold");
 
-		ToBeSold.seller.transfer(bidValue);
-
 		IERC721(ToBeSold.nftContract).transferFrom(
 			address(this),
 			highestBid.buyer,
 			tokenId
 		);
 
-		highestBid.accepted = true;
-		idToBid[highestBidId] = highestBid;
+		ToBeSold.seller.transfer(bidValue * (1 ether));
 
 		ToBeSold.sold = true;
+		ToBeSold.seller = payable(address(0));
+		ToBeSold.owner = payable(highestBid.buyer);
+		ToBeSold.price = 0;
+
+		highestBid.accepted = true;
+		highestBid.buyer = address(0);
+		idToBid[highestBidId] = highestBid;
 
 		idToMarketItem[itemID] = ToBeSold;
 
@@ -450,6 +465,20 @@ contract NFTMarketplace is ReentrancyGuard {
 		);
 	}
 
+	function cancelBid(uint256 bidId) public payable nonReentrant {
+		Bid memory toBeCancelled = idToBid[bidId];
+
+		require(
+			msg.sender == toBeCancelled.buyer,
+			"Only bidder can cancel this bid"
+		);
+
+		payable(toBeCancelled.buyer).transfer(toBeCancelled.offer * (1 ether));
+		toBeCancelled.buyer = address(0);
+		toBeCancelled.offer = 0;
+		idToBid[bidId] = toBeCancelled;
+	}
+
 	function getTotalCollections() public view returns (uint256) {
 		uint256 collections = _collectionID.current();
 
@@ -458,6 +487,11 @@ contract NFTMarketplace is ReentrancyGuard {
 
 	function getTotalMarketItems() public view returns (uint256) {
 		uint256 toReturn = _itemID.current();
+		return toReturn;
+	}
+
+	function getTotalBids() public view returns (uint256) {
+		uint256 toReturn = _bidId.current();
 		return toReturn;
 	}
 }

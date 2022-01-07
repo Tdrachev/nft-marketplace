@@ -58,13 +58,10 @@ const Header = ({
         <Link href="/createNFTCollection">
           <a className="mr-5 font-bold text-lg">Create NFT Collection</a>
         </Link>
-        <Link href="/listNFT">
-          <a className="mr-5 font-bold text-lg">List NFT</a>
-        </Link>
         <Link href="/mintNFTOfCollection">
           <a className="mr-5 font-bold text-lg">Mint NFTs</a>
         </Link>
-        <Link href="/">
+        <Link href="/yourNFT">
           <a className="mr-5 font-bold text-lg">Your NFTs</a>
         </Link>
       </div>

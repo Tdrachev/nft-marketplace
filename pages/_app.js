@@ -24,10 +24,12 @@ function MyApp({ Component, pageProps }) {
 
     provider.on("connect", () => {
       fetchAccountData();
+      setLoggedIn(true);
     });
 
     provider.on("disconnect", () => {
       setSelectedAccount("0x0");
+      setLoggedIn(false);
     });
   }
 

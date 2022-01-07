@@ -2,7 +2,8 @@ import { ethers } from "ethers";
 import React, { Fragment, useState, useEffect } from "react";
 import Header from "../components/header";
 import { create } from "ipfs-http-client";
-
+import { useRouter } from "next/router";
+import next from "next";
 const ipfs = create("https://ipfs.infura.io:5001/api/v0");
 
 const {
@@ -18,9 +19,10 @@ const CreateNFTCollection = ({
 }) => {
   const [file, setFile] = useState();
   const [imgPreview, setImagePreview] = useState();
-  const [collection, setCollection] = useState(1);
+  const [collection, setCollection] = useState(0);
   const [collections, setCollections] = useState([]);
   const [hasCollections, setHasCollections] = useState(false);
+  const router = useRouter();
   const mintNFT = async (e) => {
     e.preventDefault();
     console.log(file);
@@ -29,11 +31,11 @@ const CreateNFTCollection = ({
       const imageUp = await ipfs.add(file);
       const imagePath = `https://ipfs.infura.io/ipfs/${imageUp.path}`;
 
-      const { name, description } = collections[collection];
+      const { name, description } = collections[collection - 1];
       tokenURI = JSON.stringify({ name, description, image: imagePath });
       const res = await mintNFTOfCollection(tokenURI, collection);
       if (res) {
-        window.location.href = "/";
+        router.push("/");
       }
     } catch (e) {
       console.log(e.message);
@@ -67,6 +69,7 @@ const CreateNFTCollection = ({
               setCollection(e.target.value);
             }}
           >
+            <option value={0}>None</option>
             {collections.map((i) => {
               return (
                 <option key={i.collectionAddress} value={i.collectionID}>

@@ -17,14 +17,17 @@ export default function Home({
   const [collections, setCollections] = useState([]);
   const [collection, setCollection] = useState(0);
   const [filteredCollections, setFilteredCollections] = useState([]);
+  const [loadedNFTs, setLoadedNFTs] = useState(false);
   useEffect(async () => {
     const res = await FetchAllNFTs();
+
     if (res != []) {
       setNfts(res);
       setFilteredCollections(res);
     }
     const collections = await getAllCollections();
     setCollections(collections);
+    setLoadedNFTs(true);
   }, []);
 
   useEffect(async () => {
@@ -55,7 +58,10 @@ export default function Home({
         loggedIn={loggedIn}
       />
       <div className="flex flex-col flex-wrap ">
-        <form className="flex flex-row justify-items-start align-center mt-10 ml-10">
+        <p className=" font-bold text-center text-3xl mt-5">
+          All NFT for sale:
+        </p>
+        <form className="flex flex-row justify-items-start align-center mt-10 ml-10 border-4 p-3 w-max">
           <label htmlFor="filter_collection">Filter by collection:</label>
           <select
             name="filter_collection"
@@ -75,18 +81,20 @@ export default function Home({
           </select>
         </form>
         <div className="flex  flex-wrap align-center">
-          {filteredCollections.map((i) => {
-            return (
-              <NFTBox
-                key={ethers.BigNumber.from(i.tokenID).toNumber() + i.name}
-                collection={i.name}
-                Id={ethers.BigNumber.from(i.itemID).toNumber()}
-                Price={formatPrice(i.price)}
-                image={i.tokenURI.image}
-                collectionID={i.collectionID}
-              ></NFTBox>
-            );
-          })}
+          {loadedNFTs
+            ? filteredCollections.map((i) => {
+                return (
+                  <NFTBox
+                    key={ethers.BigNumber.from(i.tokenID).toNumber() + i.name}
+                    collection={i.name}
+                    Id={ethers.BigNumber.from(i.itemID).toNumber()}
+                    Price={formatPrice(i.price)}
+                    image={i.tokenURI.image}
+                    collectionID={i.collectionID}
+                  ></NFTBox>
+                );
+              })
+            : null}
         </div>
       </div>
     </div>

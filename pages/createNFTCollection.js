@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
 import React, { Fragment, useState } from "react";
-
+import { useRouter } from "next/router";
 import Header from "../components/header";
 const { CreateNewCollection } = require("../lib/contractInteractions");
 const CreateNFTCollection = ({
@@ -15,13 +15,13 @@ const CreateNFTCollection = ({
   const [description, setDescription] = useState("");
   const [fee, setFee] = useState(0);
   const [totalSupply, setTotalSupply] = useState(0);
-
+  const router = useRouter();
   const createCollection = async (e) => {
     e.preventDefault();
     const supplyAsBigInt = ethers.BigNumber.from(totalSupply);
     const result = await CreateNewCollection(name, description, supplyAsBigInt);
     if (result == true) {
-      window.location.href = "/";
+      router.push("/");
     }
   };
 
