@@ -64,6 +64,9 @@ const Header = ({
         <Link href="/yourNFT">
           <a className="mr-5 font-bold text-lg">Your NFTs</a>
         </Link>
+        <Link href="/lookup">
+          <a className="mr-5 font-bold text-lg">Find by account</a>
+        </Link>
       </div>
     </div>
   );

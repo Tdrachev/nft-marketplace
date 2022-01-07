@@ -403,6 +403,14 @@ contract NFTMarketplace is ReentrancyGuard {
 		uint256 currentBidId = _bidId.current();
 		uint256 itemId = tokenIdToId[tokenId];
 		address nftAddress = idToMarketItem[itemId].nftContract;
+		uint256 lastHighestBidId = tokenIdToHighestBid[tokenId];
+		Bid memory lastHighestBid = idToBid[lastHighestBidId];
+
+		if (lastHighestBid.buyer != address(0)) {
+			payable(lastHighestBid.buyer).transfer(
+				lastHighestBid.offer * (1 ether)
+			);
+		}
 
 		idToBid[currentBidId] = Bid(
 			nftAddress,
