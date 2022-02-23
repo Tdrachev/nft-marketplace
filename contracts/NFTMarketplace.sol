@@ -198,6 +198,13 @@ contract NFTMarketplace is ReentrancyGuard {
 			"Only original seller can cancel"
 		);
 
+		uint256 highestBidId = tokenIdToHighestBid[tokenID];
+		Bid memory highestBid = idToBid[highestBidId];
+
+		if (highestBid.buyer != address(0) && highestBid.offer != 0) {
+			payable(highestBid.buyer).transfer(highestBid.offer);
+		}
+
 		IERC721(nftContract).safeTransferFrom(
 			address(this),
 			marketItemToCancel.seller,

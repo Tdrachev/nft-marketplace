@@ -8,6 +8,7 @@ const {
   FetchMarketItemHighestBid,
   AcceptMarketBid,
   CancelBid,
+  ApproveNFT,
 } = require("../lib/contractInteractions");
 
 import React, { useEffect, useState } from "react";
@@ -64,6 +65,16 @@ const NftDetails = ({
       salePrice,
       marketItem.nftContract
     );
+    if (result) {
+      router.push("/");
+    }
+  };
+
+  const approveNFT = async (e) => {
+    e.preventDefault();
+    const ID = ethers.BigNumber.from(marketItem.tokenID).toNumber();
+
+    const result = await ApproveNFT(ID, salePrice, marketItem.nftContract);
     if (result) {
       router.push("/");
     }
@@ -159,6 +170,12 @@ const NftDetails = ({
                 value={salePrice}
                 onChange={(e) => setSalePrice(e.target.value)}
               ></input>
+              <button
+                className="mt-5 border-2 p-2 rounded-xl "
+                onClick={approveNFT}
+              >
+                Approve NFT
+              </button>
               <button
                 className="mt-5 border-2 p-2 rounded-xl "
                 onClick={listNFT}
